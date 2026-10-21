@@ -145,6 +145,77 @@ Then more genrally we will have the nth order derivative of $f$ at $z_0$ as
 \end{proof}
 
 \subsection{Laurent Expansion}
+
+This is a very important theorem in complex analysis to express an analytic funcition in the form of power series. The Laurent expansion is a representation of a complex function as a series that includes both positive and negative powers of the variable. It is particularly useful for functions that have singularities, as it allows us to express the function in a neighborhood of those singularities. 
+\begin{theorem}[Laurent Expansion]
+    If $f$ is analytic in an annulus $r < |z - z_0| < R$, then $f$ has a unique representation as a Laurent series:
+    \begin{equation}
+        f(z) = \sum_{n=-\infty}^{\infty} a_n (z - z_0)^n,
+    \end{equation}
+    where the coefficients are given by:
+    \begin{equation}
+        a_n = \frac{1}{2\pi i} \oint_C \frac{f(w)}{(w - z_0)^{n+1}} dw,
+    \end{equation}
+    and $C$ is any simple closed contour in the annulus, oriented positively.
+\end{theorem}
+
+If the function $f$ is analytic throughout the whole disk, then the Laurent series reduces to a Taylor series. If $f$ has a singularity at $z_0$, then the Laurent series will have negative powers of $(z-z_0)$. The principal part of the Laurent series is the sum of the terms with negative powers, and it captures the behavior of the function near the singularity.
+\begin{proof}
+    If $f$ is analytic in the annulus $ r < |z-z_0|<R$, then the Cauchy integral formula gives us:
+    \begin{equation}
+        f(z) = \frac{1}{2\pi i}\oint_{C_1} \frac{f(w)}{w-z} dw - \frac{1}{2\pi i}\oint_{C_2} \frac{f(w)}{w-z} dw,
+    \end{equation}
+
+    where $C_1$ is a positively oriented contour around $z_0$ with radius $R$, and $C_2$ is a negatively oriented contour around $z_0$ with radius $r$. We can expand the integrands in geometric series:
+    \begin{equation}
+        \frac{1}{w-z} = \frac{1}{w-z_0 - (z-z_0)} = \sum_{n=0}^{\infty} \frac{(z-z_0)^n}{(w-z_0)^{n+1}} \quad \text{for } |z-z_0| < |w-z_0|,
+    \end{equation}
+
+    For the second term, we have:
+    \begin{equation}
+        -\frac{1}{w-z} = -\frac{1}{(z-z_0) - (w-z_0)} = \sum_{m=0}^{\infty} \frac{(w-z_0)^{m}}{(z-z_0)^{m+1}} \quad \text{for } |z-z_0| > |w-z_0|.
+    \end{equation}
+    Then we substitue $n = -m-1$ in the second series, we have
+    \begin{equation}
+        -\frac{1}{w-z} = \sum_{n=-\infty}^{-1} \frac{(w-z_0)^{-n-1}}{(z-z_0)^{-n}}.
+    \end{equation}
+
+    Putting them together, we have
+    \begin{equation}
+        f(z) = \sum_{n=0}^{\infty} \left( \frac{1}{2\pi i} \oint_{C_1} \frac{f(w)}{(w-z_0)^{n+1}} dw \right) (z-z_0)^n + \sum_{n=-\infty}^{-1} \left( \frac{1}{2\pi i} \oint_{C_2} \frac{f(w)}{(w-z_0)^{n+1}} dw \right) (z-z_0)^n.
+    \end{equation}
+
+    Then this is the Laurent expansion of $f(z)$ in the annulus $r < |z-z_0| < R$,
+    \begin{equation}
+        f(z) = \sum_{n=-\infty}^{\infty} a_n (z - z_0)^n,
+    \end{equation}
+\end{proof}
+
+\subsection{Isolated Singularities}
+\begin{definition}[Isolated Singularity]
+    A point $z_0 \in \mathbb{C}$ is called an isolated singularity of a complex function $f(z)$ if there exist $r > 0$ such that $f(z)$ is analytic in the punctured disk $0 < |z - z_0| < r$, but $f(z)$ is not analytic at $z_0$.
+\end{definition}
+
+\begin{definition}[Removable Singularity]
+    A removable singularity is an isolated singularity of a complex function $f(z)$ at a point $z_0$ such that the limit $\lim_{z \to z_0} f(z)$ exists and is finite. In this case, we can define a new function $\tilde{f}(z)$ that is equal to $f(z)$ for $z \neq z_0$ and is defined to be $\tilde{f}(z_0) = \lim_{z \to z_0} f(z)$. The new function $\tilde{f}(z)$ is then analytic at $z_0$, effectively "removing" the singularity.
+\end{definition}
+\begin{definition}[Pole]
+  A pole of order m is an isolated singularity of a complex function $f(z)$ at a point $z_0$ such that the Laurent series expansion of $f(z)$ around $z_0$ has $a_{-m} \neq 0$ and $a_{-n} = 0$ for $n > m$.
+\end{definition}
+
+In particular, the Laurent expansion for a order of m pole of complex function $f(z)$ in the region $0 < |z-z_0| < R$ is given by
+\begin{equation}
+    f(z)=\sum_{k=0}^{\infty} a_{k} (z-z_0)^k + \frac{a_{-1}}{z-z_0} + \frac{a_{-2}}{(z-z_0)^2} + \cdots + \frac{a_{-m}}{(z-z_0)^m}.
+\end{equation}
+\begin{definition}{Essential Singularity}
+  An essential singularity is a type of isolated singularity of a complex function where the Laurent expansion of the function around that point contains infinitely many negative power terms.
+\end{definition}
+
+Then the Laurent expansion for a complex function $f(z)$ about its essential singularity is
+\begin{equation}
+    f(z)=\sum_{k=0}^{\infty} a_{k} (z-z_0)^k + \sum_{n=-\infty}^{-1} a_n (z-z_0)^n, \quad  a_{n} \neq 0 ~ \text{for infinitely many }n
+\end{equation}
+
 \section{Differential Equations}
 
 \end{document}
