@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsthm}
+\geometry{a4paper, margin=1in}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{xcolor}
+\pagecolor{black}
+\color{white}
+\usepackage{cancel}
+\usepackage{tikz}
+\newcommand{\Ric}{\mathcal{R}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{ex}{example}[section]
+
+\title{Basics in Mathematical Physics}
+\author{Frankie Yang}
+\date{}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Complex Analysis}
+\subsection{Analytic Functions}
+
+An analytic function is a complex function that is differentiable at every point in its domain. If a function is differentiable within a region, then we say its analytic throughout the region. There are three nice properties of analytic functions:
+\begin{enumerate}
+    \item Analytic functions are infinitely differentiable.
+    \item The contour integral of an analytic function over a closed curve is zero (Cauchy's theorem).
+    \item Analytic continuiation: If two analytic functions agree on a set of point that has an accumulation point, then they are equal on the entire domain.
+\end{enumerate}
+
+Another condition for a function to be analytic is that it must satisfy the Cauchy-Riemann equations. If $f(z) = u(x,y) + iv(x,y)$, where $z = x + iy$, then the Cauchy-Riemann equations are given by:
+\begin{equation}
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.
+\end{equation}
+
+\subsection{Cauchy's Integral Theorem}
+\begin{theorem}[Cauchy's Integral Theorem]
+ If $f$ is analytic in a simply connected domain $D$, then for any closed contour $C$ in $D$, we have:
+\begin{equation}
+\oint_C f(z) \, dz = 0.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+    We first expand $f(z)$ in terms of its real and imaginary parts, then the contour integral can be expressed as:
+    \begin{equation}
+    \oint_C f(z) \, dz = \oint_C (u + iv)(dx + i dy) = \oint_C (u dx - v dy) + i \oint_C (v dx + u dy).
+    \end{equation}
+    By Green's theorem, we can convert the line integrals into double integrals over the region $R$ enclosed by $C$:
+    \begin{equation}
+    \oint_C (u dx - v dy) = \iint_R \left(\frac{\partial (-v)}{\partial x} - \frac{\partial u}{\partial y}\right) dA, \quad \oint_C (v dx + u dy) = \iint_R \left(\frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}\right) dA.
+    \end{equation}
+    Since $f$ is analytic, it satisfies the Cauchy-Riemann equations,
+    \begin{equation}
+    \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}, \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}.
+    \end{equation}
+    Substituting these into the double integrals, we find that both integrals evaluate to zero:
+    \begin{equation}
+    \oint_C (u dx - v dy) = 0, \quad \oint_C (v dx + u dy) = 0.
+    \end{equation}
+    Therefore, we conclude that:
+    \begin{equation}
+    \oint_C f(z) \, dz = 0.
+    \end{equation}
+\end{proof}
+
+\subsection{Cauchy's Integral Theorem}
+\begin{theorem}[Cauchy's Integral Formula]
+    If $f$ is analytic in a simply connected domain $D$ and $C$ is a positively orirented simple closed contour in $D$, then for any point $z_0$ inside $C$, we have:
+    \begin{equation}
+        f(z_0)=\frac{1}{2\pi i} \oint_C \frac{f(z)}{z-z_0} dz.
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+For an arbitraryly small $\epsilon >0$, we can find a $\delta$ such that for $|z-z_0|<\delta$
+\begin{equation}
+    f(z)=f(z_0)+f'(z_0)(z-z_0)+\lambda(z)(z-z_0),
+\end{equation}
+
+where $|\lambda(z)|<\epsilon$ (the definition of $f(z)$ being analytic at $z_0$). Deforming the contour to be the circle of radius $\delta$ about $z_0$ we find
+\begin{equation}
+    \begin{split}
+        \oint_C\frac{f(z)}{z-z_0}dz &=f(z_0)\oint_C \frac{1}{z-z_0}dz + f'(z_0)\oint_C  dz + \oint_C \lambda(z) dz\\
+        &=i2\pi f(z_0) + \oint_C\lambda(z)dz\\
+    \end{split}
+\end{equation}
+
+As
+\begin{equation}
+    \left|\oint_C\lambda(z)dz\right|\leq \oint_C |\lambda(z)||dz| < \epsilon 2\pi \delta,
+\end{equation}
+we have
+\begin{equation}
+    \left|\oint_C\frac{f(z)}{z-z_0}dz - 2\pi i f(z_0)\right| < \epsilon 2\pi \delta.
+\end{equation}
+
+Since $\epsilon$ is arbitrarily small, we have
+\begin{equation}
+    \oint_C\frac{f(z)}{z-z_0}dz = 2\pi i f(z_0).
+\end{equation}
+\end{proof}
+
+\subsection{Derivatives from Cauchy's Integral Theorem}
+
+Takes derivative of the Cauchy's Integral Formula with respect to $z_0$, we have
+\begin{equation}
+    f'(z_0)=\frac{1}{2\pi i}\frac{d}{d z_0}\oint_C\frac{f(z)}{z-z_0}dz = \frac{1}{2\pi i}\oint_C\frac{f(z)}{(z-z_0)^2}dz.
+\end{equation}
+
+Then more genrally we will have the nth order derivative of $f$ at $z_0$ as
+\begin{equation}
+    f^{(n)}(z_0)=\frac{n!}{2\pi i}\oint_C\frac{f(z)}{(z-z_0)^{n+1}}dz.
+\end{equation}
+
+\subsection{Liouville's Theorem}
+\begin{theorem}[Liouville's Theorem]
+    If $f$ is entire and bounded, then $f$ is constant.
+\end{theorem}
+
+\begin{proof}
+    If $f$ is entire and bounded, then there exist a constant $M$ such that $|f(z)| \leq M$ in the entire complex plane. By Cauchy's integral formula for the first derivative, we have:
+    \begin{equation}
+        f'(z) = \frac{1}{2\pi i} \oint_C \frac{f(w)}{(w-z)^2} dw,
+    \end{equation}
+    
+    where $C$ is a circle of radius $R$ centered at $z$. Taking the modulus and using the bound on $f$, we get:
+    \begin{equation}
+        |f'(z)| \leq \frac{1}{2\pi} \oint_C \frac{|f(w)|}{|w-z|^2} |dw| \leq \frac{1}{2\pi} \cdot M \cdot \frac{2\pi R}{R^2} = \frac{M}{R}.
+    \end{equation}
+    
+    As $R \to \infty$, we have $|f'(z)| \to 0$, which means $f'(z) = 0$ for all $z$. Therefore, $f$ is constant.
+\end{proof}
+
+\subsection{Laurent Expansion}
+\section{Differential Equations}
+
+\end{document}
