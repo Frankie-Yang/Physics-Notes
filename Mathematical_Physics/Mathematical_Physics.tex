@@ -207,15 +207,129 @@ In particular, the Laurent expansion for a order of m pole of complex function $
 \begin{equation}
     f(z)=\sum_{k=0}^{\infty} a_{k} (z-z_0)^k + \frac{a_{-1}}{z-z_0} + \frac{a_{-2}}{(z-z_0)^2} + \cdots + \frac{a_{-m}}{(z-z_0)^m}.
 \end{equation}
-\begin{definition}{Essential Singularity}
+\begin{definition}[Essential Singularity]
   An essential singularity is a type of isolated singularity of a complex function where the Laurent expansion of the function around that point contains infinitely many negative power terms.
-\end{definition}
+
 
 Then the Laurent expansion for a complex function $f(z)$ about its essential singularity is
 \begin{equation}
-    f(z)=\sum_{k=0}^{\infty} a_{k} (z-z_0)^k + \sum_{n=-\infty}^{-1} a_n (z-z_0)^n, \quad  a_{n} \neq 0 ~ \text{for infinitely many }n
+    f(z)=\sum_{k=0}^{\infty} a_{k} (z-z_0)^k + \sum_{n=-\infty}^{-1} a_n (z-z_0)^n, \quad  a_{n} \neq 0 ~ \textup{for infinitely many }n
+\end{equation}
+\end{definition}
+
+\subsection{Residue Theorem}
+
+\begin{theorem}[Residue Theorem]
+    Let $f$ be analytic on and inside a positively oriented simple closed contour $C$, except at finitely many isolated singularities $z_1, z_2, \ldots, z_n$ inside $C$. Then the contour integral of $f$ around $C$ is given by:
+    \begin{equation}
+        \oint_C f(z) dz = 2\pi i \sum_{k=1}^N \text{Res}(f,z_k), \quad \text{Res}(f,z_k) := a^{(k)}_{-1},
+    \end{equation}
+    where $a^{(k)}_{-1}$ is the coefficient of $(z-z_k)^{-1}$ in the Laurent series expansion of $f$ around the singularity $z_k$.
+\end{theorem}
+
+\begin{proof}
+For $\rho>0$ and $n\in\mathbb{Z}$, let $C_\rho$ denote the circle $|z-z_k|=\rho$ traversed counterclockwise. Parameterise $z=z_k+\rho e^{i\theta}$, so $dz=i\rho e^{i\theta}\,d\theta$. Then
+    \begin{equation}
+        \oint_{C_\rho}(z-z_k)^n\,dz = i\rho^{\,n+1}\int_0^{2\pi}e^{i(n+1)\theta}\,d\theta =
+        \begin{cases}
+            2\pi i, & n=-1,\\
+            0, & n\neq-1.
+        \end{cases}
+    \end{equation}
+
+ Let $z_k$ be an isolated singularity of $f$. Then on $0<|z-z_k|<R_k$ we have
+    \begin{equation}
+        f(z)=\sum_{n=-\infty}^{\infty}a_n^{(k)}(z-z_k)^n .
+    \end{equation}
+    Choose $0<\rho<R_k$. The series converges uniformly on compact subsets of the annulus, and $C_\rho$ is compact, so the series converges uniformly on $C_\rho$. In particular, if $S_M=\sum_{|n|\le M}a_n^{(k)}(z-z_k)^n$ is the partial sum, then $\sup_{C_\rho}|f-S_M|\to 0$ as $M\to\infty$, and hence
+    \begin{equation}
+        \left|\oint_{C_\rho}(f-S_M)\,dz\right| \le 2\pi\rho\,\sup_{C_\rho}|f-S_M| \xrightarrow{M\to\infty} 0 .
+    \end{equation}
+    So the integral and the sum may be exchanged:
+    \begin{equation}
+        \oint_{C_\rho}f(z)\,dz = \sum_{n=-\infty}^{\infty}a_n^{(k)}\oint_{C_\rho}(z-z_k)^n\,dz = 2\pi i\,a_{-1}^{(k)} .
+    \end{equation}
+ Choose $\rho$ small enough that the discs $|z-z_k|\le\rho$ are disjoint, lie inside $C$, and satisfy $\rho<R_k$. Let $C_k$ be the counterclockwise circle $|z-z_k|=\rho$. Excise these discs from the interior of $C$ and join them to $C$ by thin cuts, each traversed once in each direction. The cut contributions cancel, leaving $C$ counterclockwise and each $C_k$ clockwise as the boundary of a region where $f$ is analytic. 
+ 
+ Cauchy's theorem then gives
+    \begin{equation}
+        \oint_C f(z)\,dz - \sum_{k=1}^{N}\oint_{C_k}f(z)\,dz = 0 .
+    \end{equation}
+    Therefore,
+    \begin{equation}
+        \oint_C f(z)\,dz = \sum_{k=1}^{N}\oint_{C_k}f(z)\,dz = 2\pi i\sum_{k=1}^{N}a_{-1}^{(k)} = 2\pi i\sum_{k=1}^{N}\operatorname{Res}(f,z_k).
+    \end{equation}
+\end{proof}
+
+To actually evaluate the integral, we need to compute the residue of the function at each singularity. The residue can be computed in serveal ways depending on the type of singularity. For a pole of order $m$ at $z_0$, we shall consider the function $g(z) = (z-z_0)^m f(z)$, which is analytic at $z_0$.
+
+\subsection{Evaluating Real Integrals Using Residue Theorem}
+\subsubsection{Trigonometry Functions}
+
+As we can always express trigonometric functions in terms of complex exponential functions, we can use the residue theorem to evaluate integrals involving trigonometric functions by transforming the integral into a contour integral in the complex plane. For a real integral of the form
+\begin{equation}
+    I = \int_0^{2\pi} f(cos\theta, \sin\theta) d\theta,
 \end{equation}
 
+we can always transform it by using the substitution
+\begin{equation}
+    \begin{split}
+    \cos\theta &= \frac{1}{2}(e^{i\theta} + e^{-i\theta}) = \frac{1}{2}\left(z + \frac{1}{z}\right),\\
+    \sin\theta &= \frac{1}{2i}(e^{i\theta} - e^{-i\theta}) = \frac{1}{2i}\left(z - \frac{1}{z}\right),\\
+    d\theta &= \frac{dz}{iz}, \quad z = e^{i\theta}.\\
+    \end{split}
+\end{equation}
+
+Then the integral becomes
+\begin{equation}
+    I  = \int_{|z|=1} f\left(\frac{1}{2}\left(z + \frac{1}{z}\right), \frac{1}{2i}\left(z - \frac{1}{z}\right)\right) \frac{dz}{iz}.
+\end{equation}
+
+Then, we can evaluate the integral using the residue theorem by finding the residues of the transformed function inside the unit circle.
+
+\subsection{Improper Integral from $-\infty$ to $\infty$}
+
+For an improper integral of the form
+\begin{equation}
+    I = \int_{-\infty}^{\infty} f(x) dx,
+\end{equation}
+we can evaluate the integral using the residue theorem when the function $f$ is analytic on the real axis and in the upper half plane except at a finite number of poles in the uuper half plane. We can consider a semicircular contour in the upper half plane that consists of the real axis from $-R$ to $R$ and a semicircle of radius $R$ centered at the origin. As $R \to \infty$, the integral over the semicircle vanishes if $f(z)$ decays sufficiently fast at infinity, and we are left with the integral over the real axis.
+
+\begin{theorem}[Jordan's Lemma]
+    Let $f(z)$ be a complex function such that $|f(z)| \leq M/|z|^p$ for some $p > 1$ and all sufficiently large $|z|$. Then, for any real number $a > 0$, we have
+    \begin{equation}
+        \lim_{R \to \infty} \int_{C_R} f(z) e^{iaz} dz = 0,
+    \end{equation}
+    where $C_R$ is the semicircular contour of radius $R$ in the upper half-plane.
+\end{theorem}
+
+\begin{proof}
+    Taking the modulus of the exponential function, we have
+    \begin{equation}
+        |e^{iaz}| = |e^{ia(x+iy)}| = |e^{iaR\cos\theta} e^{-aR\sin\theta}| = |e^{iaR\cos\theta}| |e^{-aR\sin\theta}| = e^{-aR\sin\theta}.
+    \end{equation}
+Then we consider the ML inequality for the integral over the semicircular contour $C_R$:
+\begin{equation}
+    \left|\oint_{C_R} f(z)e^{iaz}dz\right| \leq M(R)R\int_0^\pi e^{-aR\sin\theta}d\theta,
+    \end{equation}
+
+    as $\sin\theta$ is symmetric about $\theta = \pi /2 $, we have the Jordan's inequality on $[0, \pi/2]$ :
+    \begin{equation}
+        \sin\theta \geq \frac{2\theta}{\pi}
+    \end{equation}
+
+    Then the bound becomes
+    \begin{equation}
+        \int_0^{\pi/2} e^{-aR\sin\theta}d\theta \leq \int_0^{\pi/2} e^{-2aR\theta/\pi} d\theta = \frac{\pi}{2aR}\left(1-e^{-aR}\right).
+    \end{equation}
+
+    Combining,
+    \begin{equation}
+        \left|\oint_{C_R} f(z)e^{iaz} dz\right| \leq \frac{\pi M(R)}{a}\left(1-e^{-aR}\right).
+    \end{equation}
+
+    So then, the only requirment is that $M(R)\xrightarrow{R\to\infty} 0$, which is the condition $p\geq 1$.
+\end{proof}
 \section{Differential Equations}
 
 \end{document}
